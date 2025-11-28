@@ -8,7 +8,8 @@
 
 <!doctype html>
 <html lang="pt-BR">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <title>Protótipo RA - Super Trunfo (MHJS)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,149 +20,181 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
     <style>
-      body { margin: 0; font-family: sans-serif; }
-      #overlay {
-        position: fixed; left: 8px; right: 8px; top: 8px; z-index: 10;
-        background: rgba(0,0,0,0.6); color: #fff; padding: 8px 12px; border-radius: 6px;
-      }
-    </style>
-  </head>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
 
-  <body>
+        #overlay {
+            position: fixed;
+            left: 8px;
+            top: 8px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 12px 16px;
+            width: 260px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        #closeOverlay {
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
     <div id="overlay">
-      <strong>Protótipo RA — Super Trunfo (MHJS)</strong><br>
-      Aponte a câmera para o marcador da carta <em>(frente)</em> para ver atributos.<br>
-      Aponte para o marcador <em>(verso)</em> para ativar "sorte ou revés".<br>
-      Aponte para o marcador de <em>releitura</em> para ver a releitura em RA.
+        <button id="closeOverlay">✕</button>
+        <strong>Protótipo RA — Super Trunfo (MHJS)</strong><br>
+        Aponte a câmera para o marcador da carta <em>(frente)</em> para ver atributos.<br>
+        Aponte para o marcador <em>(verso)</em> para ativar "sorte ou revés".<br>
+        Aponte para o marcador de <em>releitura</em> para ver a releitura em RA.
     </div>
 
+
     <!-- A-Frame scene com AR.js -->
-    <a-scene
-      embedded
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-      vr-mode-ui="enabled: false"
-      renderer="logarithmicDepthBuffer: true;"
-    >
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;" vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;">
 
-      <!-- ASSETS -->
-      <a-assets>
-        <!-- Substitua pelos seus modelos / imagens -->
-        <a-asset-item id="modelCard" src="model.gltf"></a-asset-item>
-        <a-asset-item id="modelReleitura" src="releitura.gltf"></a-asset-item>
+        <!-- ASSETS -->
+        <a-assets>
+            <!-- Substitua pelos seus modelos / imagens -->
+            <a-asset-item id="modelCard" src="model.gltf"></a-asset-item>
+            <a-asset-item id="modelReleitura" src="releitura.gltf"></a-asset-item>
 
-        <img id="attrIcon" src="icon-attr.png" />
-        <img id="bg" src="card-bg.png" />
-      </a-assets>
+            <img id="attrIcon" src="icon-attr.png" />
+            <img id="bg" src="card-bg.png" />
+        </a-assets>
 
-      <!-- Luz -->
-      <a-entity light="type: ambient; intensity: 0.8"></a-entity>
-      <a-entity light="type: directional; intensity: 0.6" position="0 1 0"></a-entity>
+        <!-- Luz -->
+        <a-entity light="type: ambient; intensity: 0.8"></a-entity>
+        <a-entity light="type: directional; intensity: 0.6" position="0 1 0"></a-entity>
 
-      <!-- MARCADOR: Frente da carta (preset hiro) -->
-      <a-marker preset="hiro" id="marker-frente">
-        <!-- Fundo da carta -->
-        <a-plane src="#bg" height="1.2" width="0.8" rotation="-90 0 0" position="0 0 0"></a-plane>
+        <!-- MARCADOR: Frente da carta (preset hiro) -->
+        <a-marker preset="hiro" id="marker-frente">
+            <!-- Fundo da carta -->
+            <a-plane src="#bg" height="1.2" width="0.8" rotation="-90 0 0" position="0 0 0"></a-plane>
 
-        <!-- Modelo 3D (representação do objeto do acervo) -->
-        <a-entity
-          gltf-model="#modelCard"
-          scale="0.4 0.4 0.4"
-          rotation="0 180 0"
-          position="0 0 0.3"
-          id="obj-card"
-        ></a-entity>
+            <!-- Modelo 3D (representação do objeto do acervo) -->
+            <a-entity gltf-model="#modelCard" scale="0.4 0.4 0.4" rotation="0 180 0" position="0 0 0.3"
+                id="obj-card"></a-entity>
 
-        <!-- Painel de atributos (simples) -->
-        <a-entity id="painel-atributos" position="0 -0.35 0.2" rotation="-90 0 0">
-          <!-- exemplo de barras/labels (use texto ou imagens conforme necessário) -->
-          <a-text value="Resistência: 75" align="center" position="0 0.08 0" width="1.2"></a-text>
-          <a-text value="Valor Histórico: 88" align="center" position="0 -0.02 0" width="1.2"></a-text>
-        </a-entity>
+            <!-- Painel de atributos (simples) -->
+            <a-entity id="painel-atributos" position="0 -0.35 0.2" rotation="-90 0 0">
+                <!-- exemplo de barras/labels (use texto ou imagens conforme necessário) -->
+                <a-text value="Resistência: 75" align="center" position="0 0.08 0" width="1.2"></a-text>
+                <a-text value="Valor Histórico: 88" align="center" position="0 -0.02 0" width="1.2"></a-text>
+            </a-entity>
 
-        <!-- Indicador de toque: simula interação quando o usuário toca a tela -->
-        <a-ring id="hit-area" radius-inner="0.02" radius-outer="0.04" rotation="-90 0 0" position="0 0.25 0.05" visible="false"></a-ring>
-      </a-marker>
+            <!-- Indicador de toque: simula interação quando o usuário toca a tela -->
+            <a-ring id="hit-area" radius-inner="0.02" radius-outer="0.04" rotation="-90 0 0" position="0 0.25 0.05"
+                visible="false"></a-ring>
+        </a-marker>
 
-      <!-- MARCADOR: Verso da carta (aciona 'sorte ou revés') -->
-      <!-- Troque o url para o seu pattern (pattern-back.patt) -->
-      <a-marker type="pattern" url="pattern-back.patt" id="marker-verso">
-        <!-- Plano que aparece quando acionado (sorte ou revés) -->
-        <a-plane id="sorte-placa" position="0 0 0.1" rotation="-90 0 0" width="0.9" height="0.6" visible="false">
-          <a-text id="sorte-text" value="SORTE!\n+10 de ataque" align="center" position="0 0 0.01" width="1.0"></a-text>
-        </a-plane>
-      </a-marker>
+        <!-- MARCADOR: Verso da carta (aciona 'sorte ou revés') -->
+        <!-- Troque o url para o seu pattern (pattern-back.patt) -->
+        <a-marker type="pattern" url="pattern-back.patt" id="marker-verso">
+            <!-- Plano que aparece quando acionado (sorte ou revés) -->
+            <a-plane id="sorte-placa" position="0 0 0.1" rotation="-90 0 0" width="0.9" height="0.6" visible="false">
+                <a-text id="sorte-text" value="SORTE!\n+10 de ataque" align="center" position="0 0 0.01"
+                    width="1.0"></a-text>
+            </a-plane>
+        </a-marker>
 
-      <!-- MARCADOR: Releitura (mostra releitura em RA) -->
-      <!-- Troque o url para o seu pattern (pattern-releitura.patt) -->
-      <a-marker type="pattern" url="pattern-releitura.patt" id="marker-releitura">
-        <a-entity gltf-model="#modelReleitura" scale="0.5 0.5 0.5" position="0 0 0.3" rotation="0 180 0" id="releitura-entity" visible="false"></a-entity>
-      </a-marker>
+        <!-- MARCADOR: Releitura (mostra releitura em RA) -->
+        <!-- Troque o url para o seu pattern (pattern-releitura.patt) -->
+        <a-marker type="pattern" url="pattern-releitura.patt" id="marker-releitura">
+            <a-entity gltf-model="#modelReleitura" scale="0.5 0.5 0.5" position="0 0 0.3" rotation="0 180 0"
+                id="releitura-entity" visible="false"></a-entity>
+        </a-marker>
 
-      <!-- Camera -->
-      <a-entity camera></a-entity>
+        <!-- Camera -->
+        <a-entity camera></a-entity>
 
     </a-scene>
 
     <!-- Lógica JS simples para controlar visibilidade e eventos -->
     <script>
-      // util: busca elementos
-      const markerFrente = document.querySelector('#marker-frente');
-      const markerVerso = document.querySelector('#marker-verso');
-      const markerReleitura = document.querySelector('#marker-releitura');
+        
+        // Fechar o overlay de instruções
+        const overlay = document.getElementById('overlay');
+        const closeBtn = document.getElementById('closeOverlay');
 
-      const painelAtributos = document.querySelector('#painel-atributos');
-      const sortePlaca = document.querySelector('#sorte-placa');
-      const sorteText = document.querySelector('#sorte-text');
-      const releituraEntity = document.querySelector('#releitura-entity');
+        closeBtn.addEventListener('click', () => {
+            overlay.style.display = 'none';
+        });
 
-      // Ao detectar o marcador da frente, mostramos atributos
-      markerFrente.addEventListener('markerFound', () => {
-        painelAtributos.setAttribute('visible', 'true');
-      });
-      markerFrente.addEventListener('markerLost', () => {
-        painelAtributos.setAttribute('visible', 'false');
-      });
+        // util: busca elementos
+        const markerFrente = document.querySelector('#marker-frente');
+        const markerVerso = document.querySelector('#marker-verso');
+        const markerReleitura = document.querySelector('#marker-releitura');
 
-      // Verso: quando detectado, exibe 'sorte ou revés' e faz uma escolha aleatória
-      markerVerso.addEventListener('markerFound', () => {
-        // sorteio simples: 50/50
-        const isSorte = Math.random() < 0.5;
-        if (isSorte) {
-          sorteText.setAttribute('value', 'SORTE!\n+10 de ataque');
-        } else {
-          sorteText.setAttribute('value', 'REVÉS!\n-10 de resistência');
-        }
-        sortePlaca.setAttribute('visible', 'true');
+        const painelAtributos = document.querySelector('#painel-atributos');
+        const sortePlaca = document.querySelector('#sorte-placa');
+        const sorteText = document.querySelector('#sorte-text');
+        const releituraEntity = document.querySelector('#releitura-entity');
 
-        // opcional: som / animação curta
-        sortePlaca.setAttribute('animation', 'property: scale; to: 1.05 1.05 1; dur: 200; dir: alternate; loop: 2');
-        // aqui você pode também enviar o resultado para a lógica do jogo (via websocket / localStorage)
-      });
-      markerVerso.addEventListener('markerLost', () => {
-        sortePlaca.setAttribute('visible', 'false');
-        sortePlaca.removeAttribute('animation');
-      });
+        // Ao detectar o marcador da frente, mostramos atributos
+        markerFrente.addEventListener('markerFound', () => {
+            painelAtributos.setAttribute('visible', 'true');
+        });
+        markerFrente.addEventListener('markerLost', () => {
+            painelAtributos.setAttribute('visible', 'false');
+        });
 
-      // Releitura: mostrar / esconder releitura ao detectar marcador
-      markerReleitura.addEventListener('markerFound', () => {
-        releituraEntity.setAttribute('visible', 'true');
-        // exemplo de animação: rotacionar lentamente
-        releituraEntity.setAttribute('animation', 'property: rotation; to: 0 540 0; loop: true; dur: 10000; easing: linear');
-      });
-      markerReleitura.addEventListener('markerLost', () => {
-        releituraEntity.setAttribute('visible', 'false');
-        releituraEntity.removeAttribute('animation');
-      });
+        // Verso: quando detectado, exibe 'sorte ou revés' e faz uma escolha aleatória
+        markerVerso.addEventListener('markerFound', () => {
+            // sorteio simples: 50/50
+            const isSorte = Math.random() < 0.5;
+            if (isSorte) {
+                sorteText.setAttribute('value', 'SORTE!\n+10 de ataque');
+            } else {
+                sorteText.setAttribute('value', 'REVÉS!\n-10 de resistência');
+            }
+            sortePlaca.setAttribute('visible', 'true');
 
-      // (Opcional) Toque na tela do celular para acionar uma ação sobre o marcador frontal
-      document.addEventListener('click', (e) => {
-        // se o marcador da frente estiver visível, aciona efeito de destaque
-        if (markerFrente.object3D.visible) {
-          const obj = document.querySelector('#obj-card');
-          // pulso de escala
-          obj.setAttribute('animation', 'property: scale; to: 0.5 0.5 0.5; dur: 150; dir: alternate; loop: 1');
-        }
-      });
+            // opcional: som / animação curta
+            sortePlaca.setAttribute('animation', 'property: scale; to: 1.05 1.05 1; dur: 200; dir: alternate; loop: 2');
+            // aqui você pode também enviar o resultado para a lógica do jogo (via websocket / localStorage)
+        });
+        markerVerso.addEventListener('markerLost', () => {
+            sortePlaca.setAttribute('visible', 'false');
+            sortePlaca.removeAttribute('animation');
+        });
+
+        // Releitura: mostrar / esconder releitura ao detectar marcador
+        markerReleitura.addEventListener('markerFound', () => {
+            releituraEntity.setAttribute('visible', 'true');
+            // exemplo de animação: rotacionar lentamente
+            releituraEntity.setAttribute('animation', 'property: rotation; to: 0 540 0; loop: true; dur: 10000; easing: linear');
+        });
+        markerReleitura.addEventListener('markerLost', () => {
+            releituraEntity.setAttribute('visible', 'false');
+            releituraEntity.removeAttribute('animation');
+        });
+
+        // (Opcional) Toque na tela do celular para acionar uma ação sobre o marcador frontal
+        document.addEventListener('click', (e) => {
+            // se o marcador da frente estiver visível, aciona efeito de destaque
+            if (markerFrente.object3D.visible) {
+                const obj = document.querySelector('#obj-card');
+                // pulso de escala
+                obj.setAttribute('animation', 'property: scale; to: 0.5 0.5 0.5; dur: 150; dir: alternate; loop: 1');
+            }
+        });
+
+
     </script>
-  </body>
+</body>
+
 </html>
